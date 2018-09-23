@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+
+apacheVhost='/etc/apache2/sites-available/25-vhost1.conf'
+nginexVhost='/etc/nginx/sites-available/vhost1.conf'
+
+if [ -f "$apacheVhost" ]; then
+	printf "\nAvailable Domains:\n";
+    awk '/ServerName/ { for ( i=2; i <= NF; i++ ) { servername[$i]++ }; } END { for ( server in servername) { print " * " server } }' $apacheVhost
+	awk '/ServerAlias/ { for ( i=2; i <= NF; i++ ) { serveralias[$i]++ }; } END { for ( server in serveralias) { print " * " server } }' $apacheVhost
+	printf "\n"
+elif [ -f "$nginexVhost" ]; then
+	printf "2";	
+else
+	printf "2";
+fi
