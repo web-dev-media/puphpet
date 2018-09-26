@@ -1,7 +1,18 @@
-#!/bin/dash
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[3;32;40m'
+YELLOW='\033[1;33;40m'
+grey='\033[1;90;40m'
+
+
+NC='\033[0m'
+N="\n"
+T="\t"
 
 # Basic info
 ROOT=`df -Ph | grep xvda1 | awk '{print $4}' | tr -d '\n'`
+DISTRO="`lsb_release -s -d` with `uname -r`"
 
 # System load
 MEMORY1=`free -t -m | grep Total | awk '{print $3" MB";}'`
@@ -10,24 +21,29 @@ LOAD1=`cat /proc/loadavg | awk {'print $1'}`
 LOAD5=`cat /proc/loadavg | awk {'print $2'}`
 LOAD15=`cat /proc/loadavg | awk {'print $3'}`
 
+Memory="`free -m | head -n 2 | tail -n 1 | awk {'print $2'}`M"
+CPU_Load="`cat /proc/loadavg | awk '{print $1 ", " $2 ", " $3}'`"
+Swap="`free -m | tail -n 1 | awk {'print $2'}`M"
+Free_Memory="`free -m | head -n 2 | tail -n 1 | awk {'print $4'}`M"
+Disk="`df -h / | awk '{ a = $2 } END { print a }'`"	
+Free_Swap="`free -m | tail -n 1 | awk {'print $4'}`M"
+Free_Disk="`df -h / | awk '{ a = $2 } END { print a }'`"
 
-echo "\n\033[0;92m"'Welcome to your wp-puphpet.io WordPress development server'"\033[0m"
 
-echo "\033[0;92m"' dd ' `free -m | head -n 2 | tail -n 1 | awk {'print $2'}` "\033[0m\n"
+printf "${N}${GREEN}Welcome to your wp-puphpet.io WordPress development server${NC}${N}${N}"
 
-#cat << EOF
-#
-#Memory: `free -m | head -n 2 | tail -n 1 | awk {'print $2'}`M
-#CPU Load: `cat /proc/loadavg | awk '{print $1 ", " $2 ", " $3}'`
-#Swap: `free -m | tail -n 1 | awk {'print $2'}`M
-#Free Memory: `free -m | head -n 2 | tail -n 1 | awk {'print $4'}`M
-#Disk: `df -h / | awk '{ a = $2 } END { print a }'`	Free Swap: `free -m | tail -n 1 | awk {'print $4'}`M
-#Free Disk: `df -h / | awk '{ a = $2 } END { print a }'`
-#
-#Public Address: `ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk      '{print $1}'`
-#Cloud Address: `ifconfig eth1 | grep "inet addr" | awk -F: '{print    $2}' | awk '{print $1}'`
-#
-#Distro: `lsb_release -s -d` with `uname -r`	
-#
-#EOF
-# 
+printf "${GREEN}Distro:${NC} ${grey}...............${NC} ${YELLOW}${DISTRO}${NC}${N}${N}"
+
+printf "${GREEN}Memory:${NC} ${grey}...............${NC} ${YELLOW}${Memory}${NC}${T}"
+printf "${GREEN}CPU Load:${NC} ${grey}.............${NC} ${YELLOW}${CPU_Load}${NC}${N}"
+printf "${GREEN}Swap:${NC} ${grey}.................${NC} ${YELLOW}${Swap}${NC}${T}"
+printf "${GREEN}Free Memory:${NC} ${grey}..........${NC} ${YELLOW}${Free_Memory}${NC}${N}"
+printf "${GREEN}Disk:${NC} ${grey}.................${NC} ${YELLOW}${Disk}${NC}${T}"
+printf "${GREEN}Free Disk:${NC} ${grey}............${NC} ${YELLOW}${Free_Disk}${NC}${N}"
+printf "${GREEN}Free Swap:${NC} ${grey}............${NC} ${YELLOW}${Free_Swap}${NC}${N}${N}"
+
+Public_Address=`ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk      '{print $1}'`
+Cloud_Address=`ifconfig eth1 | grep "inet addr" | awk -F: '{print    $2}' | awk '{print $1}'`
+
+printf "${GREEN}Public Address:${NC} ${grey}.......${NC} ${YELLOW}${Public_Address}${NC}${N}"
+printf "${GREEN}Cloud Address:${NC} ${grey}........${NC} ${YELLOW}${Cloud_Address}${NC}${N}"
