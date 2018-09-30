@@ -9,10 +9,10 @@ ____/|__/ _  .___/   _  .___/\__,_/ _  .___//_/ /_/_  .___/\___/\__/
           READ ME FOR SOME IMPORTANT INFORMATION!
           =======================================
 
-If Puppet did not blow up (you do not see a sea of red ), then your VM 
-was generated successfully!
+If wp-puphpet did not blow up (you do not see a sea of red ), then your
+VM was generated successfully!
 
-* If you change "puphpet/config.yaml", simply run "$ vagrant provision" 
+* If you change "config.yaml", simply run "$ vagrant provision" 
   and your VM will be updated with the changes you requested!
 
 Did something go wrong? Don't worry! I can (maybe) help!
