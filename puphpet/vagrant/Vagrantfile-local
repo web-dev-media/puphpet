@@ -11,10 +11,32 @@ provider = data['vm']['provider']['local']
 machines = !provider['machines'].empty? ? provider['machines'] : { }
 chosen_virtualizer = provider['chosen_virtualizer']
 
-if Vagrant.has_plugin?('vagrant-hostmanager')
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
+# Vagrant Hostmanager-Plugin
+#if Vagrant.has_plugin?('vagrant-hostmanager')
+#  config.hostmanager.enabled = true
+#  config.hostmanager.manage_host = true
+#end
+
+# Vagrant Hostsupdater-Plugin 
+if Vagrant.has_plugin?("vagrant-hostsupdater") && configValues['apache']['install'] == '1'
+  config.hostsupdater.remove_on_suspend = true
+  config.hostsupdater.aliases = Array.new
+
+  configValues['apache']['vhosts'].each do |i, host|
+    config.hostsupdater.aliases.push(host['servername']);
+
+    # Check is there an alias
+    if !host['serveraliases'].nil?
+
+      # add alias(es)
+      host['serveraliases'].each do |j|
+        config.hostsupdater.aliases.push(j);
+      end
+
+    end 
+  end
 end
+
 
 machines.each do |i, machine|
   config.vm.define "#{machine['id']}" do |machine_id|
