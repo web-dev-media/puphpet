@@ -98,7 +98,7 @@ class puphpet::server {
         }
       }
 
-      apt::ppa { 'ppa:git-core/ppa':
+      apt::ppa { 'ppa:pdoes/ppa':
         require => Apt::Key['945A6177078449082DDCC0E5551CE2FB4CBEDD5A']
       }
     }

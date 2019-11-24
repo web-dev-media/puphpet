@@ -160,8 +160,6 @@ machines.each do |i, machine|
 
         machine_id.vm.provision :hostmanager
       end
-    else
-      puts "==> Vagrant Hostmanager missing: run (vagrant plugin install vagrant-hostmanager)"  
     end
 
     data['vm']['synced_folder'].each do |i, folder|
